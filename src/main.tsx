@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { AreaChart, Area, ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts'
 import { Activity, Bell, Bug, ChevronDown, ChevronRight, CircleHelp, Code2, Command, FileText, Gauge, Globe2, LayoutDashboard, Menu, MoreHorizontal, Play, Plus, Search, Settings, ShieldCheck, Sparkles, Terminal, TestTube2, X, Zap } from 'lucide-react'
+import sentinelLogo from './assets/sentinel-logo-cropped.png'
 import './styles.css'
 
 const trend = [{v:72},{v:68},{v:75},{v:71},{v:82},{v:78},{v:86},{v:84},{v:91},{v:89},{v:94},{v:93}]
@@ -14,7 +15,7 @@ const runs = [
  ['Nexus Portal','Run #089','56','52','4','1m 56s','Failed','3 hrs ago'],
 ]
 
-function Logo(){return <div className="logo"><span><ShieldCheck size={18}/></span>sentinel<span className="dim">.qa</span></div>}
+function Logo(){return <div className="logo"><span className="brand-mark"><img src={sentinelLogo} alt="Sentinel QA logo"/></span>sentinel<span className="dim"></span></div>}
 function Sidebar({mobile,onClose}:{mobile?:boolean,onClose?:()=>void}) { const [active,setActive]=useState('Dashboard'); const destination=(name:string)=>({Dashboard:'/dashboard',Projects:'/projects','Test Runs':'/projects/campusthread/runs','Test Cases':'/projects/campusthread/tests',Bugs:'/projects/campusthread/bugs',Reports:'/projects/campusthread/reports'}[name]||'/dashboard'); return <aside className={mobile?'side mobile-side':'side'}><div className="side-top"><Logo/>{mobile&&<button className="icon" onClick={onClose}><X size={18}/></button>}</div><div className="workspace"><div className="work-icon">CT</div><div><b>Campusthread</b><small>Production</small></div><ChevronDown size={15}/></div><nav>{nav.map(({icon:Icon,label,count})=><button key={label} onClick={()=>{setActive(label);go(destination(label));onClose?.()}} className={active===label?'nav-item active':'nav-item'}><Icon size={18}/><span>{label}</span>{count&&<em>{count}</em>}</button>)}</nav><div className="side-bottom"><button className="nav-item" onClick={()=>go('/settings')}><Settings size={18}/><span>Settings</span></button><div className="usage"><div><span>MONTHLY USAGE</span><b>824 <i>/ 1,000 runs</i></b></div><div className="usage-bar"><span/></div><button>Manage plan <ChevronRight size={13}/></button></div><div className="profile"><div className="avatar">T</div><div><b>Tols Ade</b><small>tols@sentinel.qa</small></div><MoreHorizontal size={17}/></div></div></aside> }
 function Header({onMenu}:{onMenu:()=>void}){return <header><button className="icon menu-btn" onClick={onMenu}><Menu size={20}/></button><div className="search"><Search size={16}/><span>Search anything...</span><kbd>⌘ K</kbd></div><div className="head-actions"><button className="icon"><CircleHelp size={19}/></button><button className="icon notify"><Bell size={19}/><i/></button><div className="head-avatar">T</div></div></header>}
 function Metric({icon:Icon,label,value,delta,kind}:{icon:any,label:string,value:string,delta:string,kind:string}){return <section className="metric"><div className={'metric-icon '+kind}><Icon size={17}/></div><span>{label}</span><div><strong>{value}</strong><small className={delta[0]==='+'?'up':'down'}>{delta} <i>vs last week</i></small></div></section>}
